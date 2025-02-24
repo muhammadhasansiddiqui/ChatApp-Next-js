@@ -5,13 +5,16 @@ import React, { useState, useEffect, useRef } from "react";
 import useMessages from "../../utils/useMessages";
 import sendMessage from "../../utils/sendMessage";
 import { FaRegSmile } from "react-icons/fa";
+import { IoArrowDown } from "react-icons/io5"; // Import scroll icon
 import { auth } from "../../utils/firebase";
 
 function ChatUIComponent() {
   const [message, setMessage] = useState("");
   const [user, setUser] = useState(null);
+  const [isScrolledUp, setIsScrolledUp] = useState(false); // Track scroll state
   const messages = useMessages();
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null); // Ref for chat container
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -24,19 +27,29 @@ function ChatUIComponent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Handle user scrolling
+  const handleScroll = () => {
+    if (chatContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+      setIsScrolledUp(scrollHeight - (scrollTop + clientHeight) > 100); // Show button if scrolled up
+    }
+  };
+
   const handleSend = async () => {
     if (message.trim() && user) {
-      const currentMessage = message; // Store current message to prevent delay
-      setMessage(""); // Clear input field instantly
+      const currentMessage = message;
+      setMessage("");
 
       await sendMessage(currentMessage, user);
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <div className="flex h-screen w-full flex-col mx-auto border border-gray-700
-     bg-black text-white shadow-lg">
+    <div className="flex h-screen w-full flex-col mx-auto border border-gray-700 bg-black text-white shadow-lg">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-700 bg-[#111111]">
         <div className="flex items-center">
@@ -57,7 +70,11 @@ function ChatUIComponent() {
       </header>
 
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-2">
+      <div
+        className="flex-1 overflow-y-auto p-4 space-y-2 relative"
+        ref={chatContainerRef}
+        onScroll={handleScroll} // Detect scrolling
+      >
         {messages.map(({ id, text, senderId, sender, timestamp }) => (
           <div key={id} className={`flex ${senderId === user?.uid ? "justify-end" : ""}`}>
             <div className={`p-3 rounded-lg text-sm shadow-md 
@@ -70,11 +87,21 @@ function ChatUIComponent() {
                   : ""}
               </small>
             </div>
-
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Scroll to Bottom Button */}
+      {isScrolledUp && (
+        <button
+          onClick={scrollToBottom}
+          className="absolute bottom-20  mr-2 mb-2 right-4 bg-gray-700 text-white p-2 
+          rounded-md shadow-lg hover:bg-gray-600 transition flex items-center"
+        >
+          <IoArrowDown size={24} />
+        </button>
+      )}
 
       {/* Input Field */}
       <div className="p-4 flex items-center bg-[#111111] border-t border-gray-700">
@@ -93,7 +120,6 @@ function ChatUIComponent() {
           <MdSend />
         </button>
       </div>
-
     </div>
   );
 }
