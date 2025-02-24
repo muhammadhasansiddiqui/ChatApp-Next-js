@@ -50,6 +50,7 @@ function ChatUIComponent() {
 
   return (
     <div className="flex h-screen w-full flex-col mx-auto border border-gray-700 bg-black text-white shadow-lg">
+     
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-700 bg-[#111111]">
         <div className="flex items-center">
