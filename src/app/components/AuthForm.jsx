@@ -3,6 +3,8 @@
 import { useState } from "react";
 import GoogleLogo from "../../images/google-logo.png";
 import FbLogo from "../../images/facebook-icon.png";
+import { doc, setDoc } from "firebase/firestore"; 
+import { db } from "../../utils/firebase"; // Firestore ka import zaroori hai
 import AuthGuard from "../../utils/AuthGuard"
 import Phone from "../../images/Phone.png";
 import { auth, googleProvider } from "../../utils/firebase";
@@ -22,6 +24,7 @@ export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const router = useRouter(); // ✅ Initialize useRouter
 
+ 
   const handleAuth = async () => {
     try {
       let result;
@@ -31,15 +34,26 @@ export default function AuthForm() {
       } else {
         result = await createUserWithEmailAndPassword(auth, email, password);
         toast.success("Signup Successful!");
+  
+        // ✅ User ko Firestore me "users" collection me store karna
+        const user = result.user;
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          name: user.displayName || email.split("@")[0], // Agar naam na ho to email ka pehla hissa
+          email: user.email,
+          photoURL: user.photoURL || "", 
+          createdAt: new Date(), // User ke signup ka time
+        });
       }
+      
       console.log("User Info:", result.user);
-      
       router.push("/ChatRoom");
-      
+  
     } catch (error) {
       toast.error(error.message);
     }
   };
+  
 
   const handleGoogleLogin = async () => {
     try {

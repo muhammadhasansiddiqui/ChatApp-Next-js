@@ -6,14 +6,16 @@ const useMessages = () => {
 
   useEffect(() => {
     const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
-
+  
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      setMessages(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      const messagesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      
+      setMessages(messagesData);
     });
-
+  
     return () => unsubscribe(); // Cleanup listener
   }, []);
-
+  
   return messages;
 };
 

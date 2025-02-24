@@ -1,5 +1,5 @@
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "./firebase"; 
+import { db } from "./firebase";
 
 const sendMessage = async (text, user) => {
   if (!text.trim()) return;
@@ -7,8 +7,10 @@ const sendMessage = async (text, user) => {
   try {
     await addDoc(collection(db, "messages"), {
       text,
-      sender: user.displayName || user.email.split("@")[0], 
+      sender: user.displayName || user.email.split("@")[0],
       senderId: user.uid,
+      senderPhoto: user.photoURL || "",
+
       timestamp: serverTimestamp(),
     });
   } catch (error) {
@@ -17,4 +19,3 @@ const sendMessage = async (text, user) => {
 };
 
 export default sendMessage; 
-
