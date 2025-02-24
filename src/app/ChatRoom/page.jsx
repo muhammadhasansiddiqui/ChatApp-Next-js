@@ -28,11 +28,11 @@ function ChatUIComponent() {
     if (message.trim() && user) {
       const currentMessage = message; // Store current message to prevent delay
       setMessage(""); // Clear input field instantly
-  
+
       await sendMessage(currentMessage, user);
     }
   };
-  
+
 
   return (
     <div className="flex h-screen w-full flex-col mx-auto border border-gray-700
@@ -60,14 +60,17 @@ function ChatUIComponent() {
       <div className="flex-1 overflow-y-auto p-4 space-y-2">
         {messages.map(({ id, text, senderId, sender, timestamp }) => (
           <div key={id} className={`flex ${senderId === user?.uid ? "justify-end" : ""}`}>
-            <div className={`p-3 rounded-lg max-w-xs text-sm ${senderId !== user?.uid ? "bg-gray-800 text-gray-200" : "bg-green-700 text-white"} mb-4 shadow-md`}>
-              <p>{text}</p>
+            <div className={`p-3 rounded-lg text-sm shadow-md 
+  ${senderId !== user?.uid ? "bg-gray-800 text-gray-200" : "bg-green-700 text-white"} 
+  max-w-[80%] break-words`}>
+              <p className="break-words">{text}</p>
               <small className="block text-right text-xs text-gray-400">
                 {timestamp?.seconds
                   ? new Date(timestamp.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })
                   : ""}
               </small>
             </div>
+
           </div>
         ))}
         <div ref={messagesEndRef} />
