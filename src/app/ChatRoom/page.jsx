@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import { MdSend, MdVideoCall, MdCall } from "react-icons/md";
+import React, { useState, useEffect, useRef } from "react";
+import useMessages from "../../utils/useMessages";
+import sendMessage from "../../utils/sendMessage";
 import { FaRegSmile } from "react-icons/fa";
-import { auth } from "../../utils/firebase"; 
-import useMessages from "../../utils/useMessages"; // Importing the real-time messages hook
-import sendMessage from "../../utils/sendMessage"; // Importing the send message function
+import { auth } from "../../utils/firebase";
 
 function ChatUIComponent() {
-  const [user, setUser] = useState(null);
   const [message, setMessage] = useState("");
-  const messages = useMessages(); // Fetch real-time messages
+  const [user, setUser] = useState(null);
+  const messages = useMessages();
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -19,15 +20,23 @@ function ChatUIComponent() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const handleSend = async () => {
     if (message.trim() && user) {
-      await sendMessage(message, user);
-      setMessage(""); // Clear input after sending
+      const currentMessage = message; // Store current message to prevent delay
+      setMessage(""); // Clear input field instantly
+  
+      await sendMessage(currentMessage, user);
     }
   };
+  
 
   return (
-    <div className="flex h-screen w-full flex-col mx-auto border border-gray-700 bg-black text-white shadow-lg">
+    <div className="flex h-screen w-full flex-col mx-auto border border-gray-700
+     bg-black text-white shadow-lg">
       {/* Header */}
       <header className="flex justify-between items-center p-4 border-b border-gray-700 bg-[#111111]">
         <div className="flex items-center">
@@ -53,10 +62,15 @@ function ChatUIComponent() {
           <div key={id} className={`flex ${senderId === user?.uid ? "justify-end" : ""}`}>
             <div className={`p-3 rounded-lg max-w-xs text-sm ${senderId !== user?.uid ? "bg-gray-800 text-gray-200" : "bg-green-700 text-white"} mb-4 shadow-md`}>
               <p>{text}</p>
-              <small className="block text-right text-xs text-gray-400">{new Date(timestamp?.seconds * 1000).toLocaleTimeString()}</small>
+              <small className="block text-right text-xs text-gray-400">
+                {timestamp?.seconds
+                  ? new Date(timestamp.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: true })
+                  : ""}
+              </small>
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Field */}
@@ -66,6 +80,7 @@ function ChatUIComponent() {
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
           className="flex-1 p-2 border border-gray-600 bg-gray-900 text-white rounded-lg focus:outline-none"
         />
         <button
@@ -75,6 +90,7 @@ function ChatUIComponent() {
           <MdSend />
         </button>
       </div>
+
     </div>
   );
 }

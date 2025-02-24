@@ -7,7 +7,7 @@ const sendMessage = async (text, user) => {
   try {
     await addDoc(collection(db, "messages"), {
       text,
-      sender: user.displayName,
+      sender: user.displayName || user.email.split("@")[0], 
       senderId: user.uid,
       timestamp: serverTimestamp(),
     });
@@ -17,3 +17,4 @@ const sendMessage = async (text, user) => {
 };
 
 export default sendMessage; 
+
