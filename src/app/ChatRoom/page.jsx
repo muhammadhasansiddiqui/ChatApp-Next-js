@@ -61,8 +61,8 @@ function ChatUIComponent() {
         {messages.map(({ id, text, senderId, sender, timestamp }) => (
           <div key={id} className={`flex ${senderId === user?.uid ? "justify-end" : ""}`}>
             <div className={`p-3 rounded-lg text-sm shadow-md 
-  ${senderId !== user?.uid ? "bg-gray-800 text-gray-200" : "bg-green-700 text-white"} 
-  max-w-[80%] break-words`}>
+                   ${senderId !== user?.uid ? "bg-gray-800 text-gray-200" : "bg-green-700 text-white"} 
+               max-w-[80%] break-words`}>
               <p className="break-words">{text}</p>
               <small className="block text-right text-xs text-gray-400">
                 {timestamp?.seconds
