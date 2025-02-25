@@ -12,7 +12,7 @@ export default function AuthGuard({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
-        router.push("/"); // 🔴 Unauthorized users ko login page par redirect karo
+        router.push("/");
       } else {
         setUser(user);
       }
@@ -22,7 +22,7 @@ export default function AuthGuard({ children }) {
     return () => unsubscribe();
   }, [router]);
 
-  if (loading) return <p className="text-white bg-slate-600">Loading...</p>; // ✅ Avoid flickering
+  if (loading) return <p className="text-white bg-slate-600">Loading...</p>; 
 
   return <>{children}</>;
 }

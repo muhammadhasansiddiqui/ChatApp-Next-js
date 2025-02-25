@@ -35,14 +35,13 @@ export default function AuthForm() {
         result = await createUserWithEmailAndPassword(auth, email, password);
         toast.success("Signup Successful!");
 
-        // ✅ User ko Firestore me "users" collection me store karna
         const user = result.user;
         await setDoc(doc(db, "users", user.uid), {
           uid: user.uid,
-          name: user.displayName || email.split("@")[0], // Agar naam na ho to email ka pehla hissa
+          name: user.displayName || email.split("@")[0], 
           email: user.email,
           photoURL: user.photoURL || "",
-          createdAt: new Date(), // User ke signup ka time
+          createdAt: new Date(),
         });
       }
 
