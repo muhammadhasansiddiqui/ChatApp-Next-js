@@ -89,7 +89,7 @@ function GroupChatComponent() {
               {!isSidebarOpen && (
                 <button
                   onClick={() => setIsSidebarOpen(true)}
-                  className="absolute top-4 left-4 p-2 bg-gray-700 text-white rounded-md z-50 lg:hidden"
+                  className="absolute  top-4 left-4 p-2 bg-gray-700 text-white rounded-md z-50 lg:hidden"
                 >
                   ☰
                 </button>
