@@ -50,8 +50,8 @@ function GroupChatComponent() {
 
   return (
 
-    <div className=" flex  ">
-      {/* Sidebar Backdrop */}
+<div className="flex h-screen overflow-hidden">
+{/* Sidebar Backdrop */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
@@ -62,7 +62,7 @@ function GroupChatComponent() {
       {/* Sidebar (Mobile Style) */}
 
       <div
-        className={`fixed top-0 left-0 h-auto w-64 bg-gray-900 text-white shadow-lg z-50 
+        className={`fixed top-0  left-0  w-64 bg-gray-900 text-white shadow-lg z-50 
           transform transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:relative lg:translate-x-0`}
       >
