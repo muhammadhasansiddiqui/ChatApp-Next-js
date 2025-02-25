@@ -80,7 +80,7 @@ function GroupChatComponent() {
 
       {/* Chat Section */}
       {user ? (
-        <div className="flex flex-col flex-1 mx-auto   bg-black text-white shadow-lg">
+        <div className="flex flex-col flex-1 mx-auto  w-full  bg-black text-white shadow-lg">
 
           {/* <div className=" absolute"></div> */}
 
