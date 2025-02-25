@@ -29,8 +29,8 @@ function SidebarComponent() {
   }, []);
 
   return (
-    <div className="w-64 h-screen bg-gray-900 text-white border-r border-gray-700 p-4">
-      <h2 className="text-lg font-bold mb-4">Users</h2>
+    <div className="w-64  h-screen bg-gray-900 text-white border-r border-gray-700 p-4">
+      <h2 className="text-lg text-center font-bold mb-4">Members</h2>
       <ul>
         {users.map((user) => (
           <li key={user.id} className="flex items-center gap-2 p-2 border-b border-gray-700">
@@ -41,9 +41,7 @@ function SidebarComponent() {
             />
             <div>
               <p className="font-semibold">{user.name || "Unknown User"}</p>
-              <small className={user.isOnline ? "text-green-400" : "text-gray-500"}>
-                {user.isOnline ? "Online" : "Offline"}
-              </small>
+             
             </div>
           </li>
         ))}
