@@ -29,7 +29,7 @@ function SidebarComponent() {
   }, []);
 
   return (
-    <div className="w-64  h-screen bg-gray-900 text-white border-r border-gray-700 p-4">
+    <div className="w-auto  h-screen bg-gray-900 text-white border-r border-gray-700 p-4">
       <h2 className="text-lg text-center font-bold mb-4">Members</h2>
       <ul>
         {users.map((user) => (

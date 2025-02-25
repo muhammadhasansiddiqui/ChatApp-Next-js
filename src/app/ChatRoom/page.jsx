@@ -138,7 +138,7 @@ function GroupChatComponent() {
             </button>
           )}
 
-          <div className="p-4 fixed flex items-center bg-[#111111] border-t border-gray-700 bottom-0 w-full">
+          <div className="p-4 fixed flex items-center bg-[#111111] border-t border-gray-700 bottom-0 sm:w-full  lg:w-[80%]">
             <input
               type="text"
               placeholder="Type your message..."
