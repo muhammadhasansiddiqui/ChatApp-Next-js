@@ -49,9 +49,9 @@ function GroupChatComponent() {
   };
 
   return (
-    
-<div className=" flex  h-screen ">
-{/* Sidebar Backdrop */}
+
+    <div className=" flex  ">
+      {/* Sidebar Backdrop */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
@@ -62,7 +62,7 @@ function GroupChatComponent() {
       {/* Sidebar (Mobile Style) */}
 
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-900 text-white shadow-lg z-50 
+        className={`fixed top-0 left-0 h-auto w-64 bg-gray-900 text-white shadow-lg z-50 
           transform transition-transform duration-300 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:relative lg:translate-x-0`}
       >
@@ -82,7 +82,7 @@ function GroupChatComponent() {
       {user ? (
         <div className="flex flex-col flex-1 mx-auto   bg-black text-white shadow-lg">
 
-{/* <div className=" absolute"></div> */}
+          {/* <div className=" absolute"></div> */}
 
           <header className="flex fixed justify-between items-center p-4 border-b border-gray-700 bg-[#111111] pl-12 w-full z-10">
             <div className="flex items-center">
@@ -149,7 +149,7 @@ function GroupChatComponent() {
             />
             <button
               onClick={handleSend}
-              className="ml-2 p-2 mr-2 mb-2 bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white rounded-lg flex items-center justify-center hover:from-[#ff4b2b] hover:to-[#ff416c] transition"
+              className="ml-2 p-2 mr-2  bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white rounded-lg flex items-center justify-center hover:from-[#ff4b2b] hover:to-[#ff416c] transition"
             >
               <MdSend />
             </button>
