@@ -5,11 +5,14 @@ import Image from "next/image";
 import { auth, firebaseConfig } from "../../utils/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+
 
 export default function SmsLogin() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [confirmationResult, setConfirmationResult] = useState(null);
+
 
   const handleSendOTP = async () => {
     try {
@@ -22,7 +25,10 @@ export default function SmsLogin() {
       const result = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
       setConfirmationResult(result);
       Swal.fire("Success", "OTP Sent Successfully!", "success");
+      
+
     } catch (error) {
+      console.log("🚀 ~ handleSendOTP ~ error:", error)
       Swal.fire("Error", error.message, "error");
     }
   };
@@ -33,6 +39,7 @@ export default function SmsLogin() {
       const result = await confirmationResult.confirm(code);
       Swal.fire("Success", "Phone Verified Successfully!", "success");
       console.log("User Info:", result.user);
+      router.push("/ChatRoom");
     } catch (error) {
       Swal.fire("Error", "Invalid OTP!", "error");
     }

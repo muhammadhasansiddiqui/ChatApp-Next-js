@@ -38,7 +38,7 @@ export default function AuthForm() {
         const user = result.user;
         await setDoc(doc(db, "users", user.uid), {
           uid: user.uid,
-          name: user.displayName || email.split("@")[0], 
+          name: user.displayName || email.split("@")[0],
           email: user.email,
           photoURL: user.photoURL || "",
           createdAt: new Date(),
@@ -73,13 +73,17 @@ export default function AuthForm() {
 
   const handlePhoneLogin = async () => {
     toast.warning("SMS Login Coming Soon...");
+    router.push("/sms-login");
+
   };
 
   return (
 
     <AuthGuard>
+<div className="conatiner">
 
-      <div className="flex flex-col w-full items-center justify-center min-h-screen bg-black text-white">
+      <div className="flex flex-col w-full items-center justify-center
+       min-h-screen bg-black text-white">
         <div className="bg-[#111111] p-8 rounded-lg shadow-lg w-96">
           <h2 className="text-2xl font-semibold text-center mb-4">
             {isLogin ? "Log in to your account✨" : "Create an account ✨"}
@@ -112,14 +116,16 @@ export default function AuthForm() {
 
           <button
             onClick={handleAuth}
-            className="w-full p-3 rounded bg-gradient-to-r from-[#ff416c] to-[#ff4b2b] text-white font-semibold cursor-pointer mb-4 hover:from-[#ff4b2b] hover:to-[#ff416c]"
+            className="w-full p-3 rounded bg-gradient-to-r from-[#ff416c] to-[#ff4b2b]
+             text-white font-semibold cursor-pointer mb-4 hover:from-[#ff4b2b] hover:to-[#ff416c]"
           >
             {isLogin ? "Login" : "Sign Up"}
           </button>
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center justify-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
+            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center justify-center 
+            transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
           >
             <Image src={GoogleLogo} alt="Google Logo" width={25} height={25} className="mr-2" />
             Sign in with Google
@@ -127,7 +133,8 @@ export default function AuthForm() {
 
           <button
             onClick={handleFbLogin}
-            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center justify-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
+            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center justify-center 
+            transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
           >
             <Image src={FbLogo} alt="FB Logo" width={25} height={25} className="mr-2" />
             Sign in with Facebook
@@ -135,7 +142,8 @@ export default function AuthForm() {
 
           <button
             onClick={handlePhoneLogin}
-            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center justify-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
+            className="w-full mt-3 bg-black border border-gray-600 p-2 rounded flex items-center
+             justify-center transition-all duration-300 hover:bg-gradient-to-r hover:from-[#ff416c] hover:to-[#ff4b2b]"
           >
             <Image src={Phone} alt="Phone Logo" width={25} height={25} className="mr-2" />
             Sign in with SMS
@@ -149,6 +157,8 @@ export default function AuthForm() {
           </p>
         </div>
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      </div>
+
       </div>
     </AuthGuard>
   );

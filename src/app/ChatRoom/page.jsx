@@ -50,8 +50,8 @@ function GroupChatComponent() {
 
   return (
 
-<div className="flex h-screen overflow-hidden">
-{/* Sidebar Backdrop */}
+    <div className="flex h-screen overflow-hidden">
+      {/* Sidebar Backdrop */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-50 z-40"
